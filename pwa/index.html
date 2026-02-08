@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#8b1a1a">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="description" content="Ли Бо — Чайный Бар. Меню и подбор напитков.">
+  <title>Ли Бо — Чайный Бар</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="icons/icon-192.png">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- ═══ Header ═══ -->
+  <header class="header">
+    <h1>李白</h1>
+    <div class="subtitle">Ли Бо &middot; Чайный Бар</div>
+  </header>
+
+  <!-- ═══ Home Page ═══ -->
+  <main id="home" class="page active">
+    <div class="hero">
+      <div class="kanji">茶</div>
+      <div class="ink-divider"></div>
+      <p>Добро пожаловать в чайный бар &laquo;Ли Бо&raquo;. Откройте для себя мир изысканных чаёв, авторских коктейлей и традиционных вкусов Китая.</p>
+    </div>
+    <div class="feature-cards">
+      <div class="feature-card" data-goto="menu">
+        <h3>Меню</h3>
+        <p>Чаи, коктейли, блюда и настойки нашего бара.</p>
+      </div>
+      <div class="feature-card" data-goto="quiz">
+        <h3>Подбор напитка</h3>
+        <p>Ответьте на 5 вопросов, и мы подберём напиток специально для Вас.</p>
+      </div>
+    </div>
+  </main>
+
+  <!-- ═══ Menu Page ═══ -->
+  <section id="menu" class="page">
+    <div id="menu-content">
+      <div class="loading"><div class="spinner"></div>Загрузка меню...</div>
+    </div>
+  </section>
+
+  <!-- ═══ Quiz Page ═══ -->
+  <section id="quiz" class="page">
+    <div id="quiz-content">
+      <div class="loading"><div class="spinner"></div>Загрузка...</div>
+    </div>
+  </section>
+
+  <!-- ═══ Info Page ═══ -->
+  <section id="info" class="page">
+    <div class="info-section">
+      <div class="info-block">
+        <h2>О нас</h2>
+        <p>Чайный бар &laquo;Ли Бо&raquo; &mdash; пространство, вдохновлённое традициями китайской чайной культуры. Мы предлагаем авторские напитки, классические чаи и блюда, которые раскрывают глубину восточного вкуса.</p>
+      </div>
+      <div class="info-block">
+        <h2>Контакты</h2>
+        <ul>
+          <li>Адрес: уточняйте</li>
+          <li>Режим работы: ежедневно</li>
+        </ul>
+      </div>
+      <div class="info-block">
+        <h2>Как работает подбор напитка</h2>
+        <p>Вы отвечаете на пять вопросов о Ваших вкусовых предпочтениях. Наш алгоритм анализирует Ваши ответы и подбирает три напитка из меню, которые лучше всего соответствуют Вашему вкусу.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ Bottom Navigation ═══ -->
+  <nav class="bottom-nav">
+    <button data-page="home" class="active" aria-label="Главная">
+      <svg viewBox="0 0 24 24"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-4 0a1 1 0 01-1-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 01-1 1h-2z"/></svg>
+      Главная
+    </button>
+    <button data-page="menu" aria-label="Меню">
+      <svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+      Меню
+    </button>
+    <button data-page="quiz" aria-label="Подбор">
+      <svg viewBox="0 0 24 24"><path d="M9.663 17h4.674M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
+      Подбор
+    </button>
+    <button data-page="info" aria-label="Информация">
+      <svg viewBox="0 0 24 24"><path d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+      Инфо
+    </button>
+  </nav>
+
+  <script src="js/menu-data.js"></script>
+  <script src="js/quiz-data.js"></script>
+  <script src="js/app.js"></script>
+
+  <!-- Feature card click handler -->
+  <script>
+    document.querySelectorAll('.feature-card[data-goto]').forEach(function(card) {
+      card.addEventListener('click', function() {
+        var target = card.dataset.goto;
+        var btn = document.querySelector('.bottom-nav button[data-page="' + target + '"]');
+        if (btn) btn.click();
+      });
+    });
+  </script>
+</body>
+</html>
