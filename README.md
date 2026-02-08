@@ -151,14 +151,11 @@ PWA можно упаковать в Android-приложение с помощ�
 
 #### Шаг 2: Создайте TWA-проект с помощью Bubblewrap
 
-[Bubblewrap](https://github.com/nicktng/nicktng.github.io) — CLI-инструмент Google для создания TWA.
+[Bubblewrap](https://github.com/GoogleChromeLabs/bubblewrap) — CLI-инструмент Google для создания TWA.
 
 ```bash
 # Установите bubblewrap
-npm install -g @nicktng/nicktng.github.io
-
-# Или используйте оригинальный пакет
-npm install -g @nicktng/nicktng.github.io
+npm install -g @bubblewrap/cli
 ```
 
 **Более простой способ — через PWABuilder:**
