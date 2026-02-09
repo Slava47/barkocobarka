@@ -124,6 +124,13 @@
         const item = findItemById(el.dataset.itemId);
         if (item) showDetail(item);
       });
+      el.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          const item = findItemById(el.dataset.itemId);
+          if (item) showDetail(item);
+        }
+      });
     });
   }
 
@@ -182,12 +189,18 @@
     overlay.addEventListener('click', (e) => {
       if (e.target === overlay) closeDetail();
     });
+    document.addEventListener('keydown', handleDetailEscape);
   }
 
   function closeDetail() {
     const overlay = document.getElementById('detail-overlay');
     if (overlay) overlay.remove();
     document.body.style.overflow = '';
+    document.removeEventListener('keydown', handleDetailEscape);
+  }
+
+  function handleDetailEscape(e) {
+    if (e.key === 'Escape') closeDetail();
   }
 
   /* ── Quiz Flow ─────────────────────────────── */
@@ -287,6 +300,13 @@
       el.addEventListener('click', () => {
         const item = findItemById(el.dataset.itemId);
         if (item) showDetail(item);
+      });
+      el.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          const item = findItemById(el.dataset.itemId);
+          if (item) showDetail(item);
+        }
       });
     });
   }

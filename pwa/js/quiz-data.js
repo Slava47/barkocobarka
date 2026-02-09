@@ -52,8 +52,8 @@ const QUIZ_DATA = {
 };
 
 function getRecommendations(answers, items) {
-    var scored = items.map(function (item) {
-        var score = 0;
+    const scored = items.map(function (item) {
+        let score = 0;
         answers.forEach(function (ans) {
             if (ans === 'любой' || ans === 'любой_алко') return;
             if (ans === 'безалкогольный') {
@@ -67,7 +67,7 @@ function getRecommendations(answers, items) {
             }
             item.tags.forEach(function (tag) {
                 if (tag === ans) score += 2;
-                if (tag.indexOf(ans) !== -1 || ans.indexOf(tag) !== -1) score += 1;
+                if (tag.includes(ans) || ans.includes(tag)) score += 1;
             });
         });
         return { item: item, score: score };
