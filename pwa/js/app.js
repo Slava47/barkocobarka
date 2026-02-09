@@ -1,6 +1,6 @@
 /**
  * Ли Бо — Чайный Бар  |  Main Application Logic
- * Handles navigation, menu rendering, quiz flow, and API integration.
+ * Handles navigation, menu rendering, quiz flow, detail view, and API integration.
  */
 
 (function () {
@@ -100,7 +100,7 @@
         ? `<img class="menu-item-img" src="${encodeURI(imgSrc)}" alt="${escapeHtml(item.name)}" loading="lazy">`
         : `<div class="menu-item-img" aria-hidden="true"></div>`;
       html += `
-        <div class="menu-item">
+        <div class="menu-item" data-item-id="${escapeAttr(item.id)}" role="button" tabindex="0">
           ${imgTag}
           <div class="menu-item-info">
             <h4>${escapeHtml(item.name)}</h4>
@@ -118,6 +118,76 @@
         renderMenu();
       });
     });
+
+    container.querySelectorAll('.menu-item[data-item-id]').forEach(el => {
+      el.addEventListener('click', () => {
+        const item = findItemById(el.dataset.itemId);
+        if (item) showDetail(item);
+      });
+    });
+  }
+
+  /* ── Detail View ───────────────────────────── */
+  function findItemById(id) {
+    if (!menuData) return null;
+    return menuData.items.find(i => i.id === id) || null;
+  }
+
+  function showDetail(item) {
+    let existing = document.getElementById('detail-overlay');
+    if (existing) existing.remove();
+
+    const overlay = document.createElement('div');
+    overlay.id = 'detail-overlay';
+    overlay.className = 'detail-overlay';
+
+    const images = item.images && item.images.length ? item.images : (item.image ? [item.image] : []);
+    let gallery = '';
+    images.forEach(src => {
+      gallery += `<img class="detail-gallery-img" src="${encodeURI(src)}" alt="${escapeHtml(item.name)}" loading="lazy">`;
+    });
+    if (!gallery) {
+      gallery = '<div class="detail-gallery-img detail-no-img" aria-hidden="true"></div>';
+    }
+
+    const fullDesc = item.fullDescription || item.description || '';
+    const tags = item.tags || [];
+    let tagsHtml = '';
+    if (tags.length) {
+      tagsHtml = '<div class="detail-tags">';
+      tags.forEach(t => {
+        tagsHtml += `<span class="detail-tag">${escapeHtml(t)}</span>`;
+      });
+      tagsHtml += '</div>';
+    }
+
+    overlay.innerHTML = `
+      <div class="detail-content">
+        <button class="detail-back" aria-label="Назад">&larr; Назад</button>
+        <div class="detail-gallery">${gallery}</div>
+        <div class="detail-body">
+          <h2 class="detail-name">${escapeHtml(item.name)}</h2>
+          <div class="detail-price">${escapeHtml(item.price)} &#8381;</div>
+          <p class="detail-desc">${escapeHtml(fullDesc)}</p>
+          ${tagsHtml}
+        </div>
+      </div>`;
+
+    document.body.appendChild(overlay);
+    document.body.style.overflow = 'hidden';
+
+    overlay.querySelector('.detail-back').addEventListener('click', () => {
+      closeDetail();
+    });
+    overlay.addEventListener('click', (e) => {
+      if (e.target === overlay) closeDetail();
+    });
+  }
+
+  function closeDetail() {
+    const overlay = document.getElementById('detail-overlay');
+    if (overlay) overlay.remove();
+    document.body.style.overflow = '';
   }
 
   /* ── Quiz Flow ─────────────────────────────── */
@@ -191,12 +261,13 @@
         ? `<img class="result-card-img" src="${encodeURI(imgSrc)}" alt="${escapeHtml(item.name)}" loading="lazy">`
         : `<div class="result-card-img" aria-hidden="true"></div>`;
       cards += `
-        <div class="result-card">
+        <div class="result-card" data-item-id="${escapeAttr(item.id)}" role="button" tabindex="0">
           ${imgTag}
           <div class="result-card-body">
             <h4>${escapeHtml(item.name)}</h4>
             <div class="reason">${escapeHtml(item.reason)}</div>
             <div class="desc">${escapeHtml(item.description)}</div>
+            <div class="detail-link">Подробнее</div>
           </div>
         </div>`;
     });
@@ -211,6 +282,13 @@
       </div>`;
 
     document.getElementById('quiz-retry').addEventListener('click', resetQuiz);
+
+    container.querySelectorAll('.result-card[data-item-id]').forEach(el => {
+      el.addEventListener('click', () => {
+        const item = findItemById(el.dataset.itemId);
+        if (item) showDetail(item);
+      });
+    });
   }
 
   /* ── Helpers ───────────────────────────────── */
